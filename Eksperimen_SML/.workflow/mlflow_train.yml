@@ -1,0 +1,38 @@
+name: MLflow Training Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Prepare Data
+        run: |
+          python src/prepare_data.py
+
+      - name: Run MLflow Project
+        run: |
+          # Reviewer Recommendation: Use mlflow run .
+          mlflow run . --env-manager=local
+
+      - name: Verify Artifacts
+        run: |
+          ls -R mlruns

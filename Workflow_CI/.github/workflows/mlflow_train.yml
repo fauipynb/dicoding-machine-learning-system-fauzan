@@ -4,35 +4,27 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   train:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: '3.8'
+          python-version: "3.11"
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
-          pip install -r requirements.txt
+          pip install pandas
+          pip install scikit-learn
+          pip install matplotlib
+          pip install mlflow
+          pip install joblib
 
-      - name: Prepare Data
+      - name: Run Training
+        working-directory: MLProject
         run: |
-          python src/prepare_data.py
-
-      - name: Run MLflow Project
-        run: |
-          # Reviewer Recommendation: Use mlflow run .
-          mlflow run . --env-manager=local
-
-      - name: Verify Artifacts
-        run: |
-          ls -R mlruns
+          python modelling.py

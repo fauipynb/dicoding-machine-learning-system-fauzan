@@ -11,13 +11,13 @@ from mlflow.models.signature import infer_signature
 
 def train_model():
     # 1. Load Data
-    X_train = pd.read_csv('data/processed/X_train.csv')
-    y_train = pd.read_csv('data/processed/y_train.csv')
-    X_test = pd.read_csv('data/processed/X_test.csv')
-    y_test = pd.read_csv('data/processed/y_test.csv')
+    X_train = pd.read_csv("mobile_price_preprocessing/X_train.csv")
+    y_train = pd.read_csv("mobile_price_preprocessing/y_train.csv")
+    X_test = pd.read_csv("mobile_price_preprocessing/X_test.csv")
+    y_test = pd.read_csv("mobile_price_preprocessing/y_test.csv")
 
     # 2. MLflow Tracking Setup
-    mlflow.set_tracking_uri("file:./mlruns")
+    mlflow.set_tracking_uri("sqlite:///mlflow.db")
     mlflow.set_experiment("Mobile_Price_Classification")
 
     # Matikan autolog model agar tidak konflik dengan log manual di 3.x
